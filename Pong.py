@@ -1,4 +1,5 @@
 import turtle
+import time
 
 wn = turtle.Screen()
 wn.title("Pong")
@@ -7,6 +8,11 @@ screen_width=800
 screen_height=600
 wn.setup(width=800, height=600)
 wn.tracer(0)
+
+# Score
+
+score_A = 0
+score_B = 0
 
 # First paddle
 
@@ -37,9 +43,18 @@ ball.shape("square")
 ball.color("black")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 0.6
-ball.dy = -0.6
+ball.dx = 0.4
+ball.dy = -0.4
 
+# Pen
+
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("red")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, screen_height/2 - 40)
+pen.write("Player A: 0  Player B: 0", align="center", font=("Courier", 24, "normal"))
 
 # Function
 
@@ -92,9 +107,59 @@ while True:
     if (ball.xcor() < -(screen_width/2)):
         ball.goto(0, 0)
         ball.dx *= -1
+        score_B += 1
+        pen.clear()
+        pen.write("Player A: {}  Player B: {}".format(score_A, score_B), align="center", font=("Courier", 24, "normal"))
     
     if (ball.xcor() > (screen_width/2)):
         ball.goto(0, 0)
         ball.dx *= -1
+        score_A += 1
+        pen.clear()
+        pen.write("Player A: {}  Player B: {}".format(score_A, score_B), align="center", font=("Courier", 24, "normal"))
 
     # Ball hits the paddle
+
+    if (ball.xcor() > second_pddl.xcor()-20 and ball.xcor() < second_pddl.xcor()-10) and (ball.ycor() < second_pddl.ycor()+40 and ball.ycor() > second_pddl.ycor() -40):
+        ball.setx(330)
+        ball.dx *= -1
+
+    if (ball.xcor() < first_pddl.xcor()+20 and ball.xcor() > first_pddl.xcor()+10) and (ball.ycor() < first_pddl.ycor()+40 and ball.ycor() > first_pddl.ycor() -40):
+        ball.setx(-330)
+        ball.dx *= -1
+
+    # End of the game
+
+    if score_A >= 10 or score_B >= 10:
+        finishpen = turtle.Turtle()
+        finishpen.hideturtle()
+        finishpen.speed(0)
+        finishpen.penup()
+        finishpen.goto(0, 0)
+
+        first_pddl.clear()
+        first_pddl.hideturtle()
+        second_pddl.clear()
+        second_pddl.hideturtle()
+        ball.clear()
+        ball.hideturtle()
+        pen.clear()
+
+        i = 0
+        for i in range (3):
+            wn.bgcolor("black")
+            finishpen.color("white")
+            finishpen.clear()
+            if score_A >= 10:
+                finishpen.write("Player A wins!", align="center", font=("Arial", 32, "bold"))
+            else:
+                finishpen.write("Player B wins!", align="center", font=("Arial", 32, "bold"))
+            time.sleep(1.5)
+            wn.bgcolor("white")
+            finishpen.color("black")
+            finishpen.clear()
+            if score_A >= 10:
+                finishpen.write("Player A wins!", align="center", font=("Arial", 32, "bold"))
+            else:
+                finishpen.write("Player B wins!", align="center", font=("Arial", 32, "bold"))
+            time.sleep(1.5)
