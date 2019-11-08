@@ -1,5 +1,6 @@
 import turtle
 import time
+import winsound
 
 wn = turtle.Screen()
 wn.title("Pong")
@@ -99,10 +100,12 @@ while True:
     if (ball.ycor() > (screen_height/2 - 10)):
         ball.sety((screen_height/2)-10)
         ball.dy *= -1
+        winsound.PlaySound("bounceBorder.wav", winsound.SND_ASYNC)
     
     if (ball.ycor() < (-(screen_height/2) + 10)):
         ball.sety(-(screen_height/2)+10)
         ball.dy *= -1
+        winsound.PlaySound("bounceBorder.wav", winsound.SND_ASYNC)
 
     if (ball.xcor() < -(screen_width/2)):
         ball.goto(0, 0)
@@ -110,6 +113,7 @@ while True:
         score_B += 1
         pen.clear()
         pen.write("Player A: {}  Player B: {}".format(score_A, score_B), align="center", font=("Courier", 24, "normal"))
+        winsound.PlaySound("claps.wav", winsound.SND_ASYNC)
     
     if (ball.xcor() > (screen_width/2)):
         ball.goto(0, 0)
@@ -117,16 +121,20 @@ while True:
         score_A += 1
         pen.clear()
         pen.write("Player A: {}  Player B: {}".format(score_A, score_B), align="center", font=("Courier", 24, "normal"))
+        winsound.PlaySound("claps.wav", winsound.SND_ASYNC)
 
     # Ball hits the paddle
 
     if (ball.xcor() > second_pddl.xcor()-20 and ball.xcor() < second_pddl.xcor()-10) and (ball.ycor() < second_pddl.ycor()+40 and ball.ycor() > second_pddl.ycor() -40):
         ball.setx(330)
         ball.dx *= -1
+        winsound.PlaySound("bouncePaddle.wav", winsound.SND_ASYNC)
+        
 
     if (ball.xcor() < first_pddl.xcor()+20 and ball.xcor() > first_pddl.xcor()+10) and (ball.ycor() < first_pddl.ycor()+40 and ball.ycor() > first_pddl.ycor() -40):
         ball.setx(-330)
         ball.dx *= -1
+        winsound.PlaySound("bouncePaddle.wav", winsound.SND_ASYNC)
 
     # End of the game
 
